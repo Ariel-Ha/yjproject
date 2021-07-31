@@ -14,13 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from collections import namedtuple
 from django.contrib import admin
 from django.urls import path
 from blog import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +34,9 @@ urlpatterns = [
 
     
     path('photo/', views.photo, name="photo"),
+    path('image_upload', views.face_image_view, name = 'image_upload'),
+    path('success', views.success, name = 'success'),
+
 
     path('createMusic/', views.createMusic, name="createMusic"),
     path('music/', views.music, name="music"),
@@ -48,5 +51,6 @@ urlpatterns = [
     path('pastimeviewdetail/<int:pastime_id>/', views.pastimeviewdetail, name='pastimeviewdetail'),
     path('placeviewdeatail/<int:place_id>/', views.placeviewdetail, name='placeviewdetail'),
     path('musicviewdetail/<int:music_id>/', views.musicviewdetail, name='musicviewdetail'),
+    
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

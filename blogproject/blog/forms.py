@@ -1,5 +1,5 @@
 from django import forms
-from .models import Blog, Pastime, Place, Music
+from .models import Blog, Pastime, Place, Music, Photo
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
  
 class CreateBlog(forms.ModelForm):
@@ -69,3 +69,13 @@ class CreateMusic(forms.ModelForm):
             ),
             'content': forms.CharField(widget=CKEditorUploadingWidget()),
         }
+
+
+class FaceForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = [
+        'title',
+        'image',
+        'description'
+        ]

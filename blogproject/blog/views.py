@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Blog, Photo, Pastime, Place, Music
-from .forms import CreateBlog, CreateMusic, CreatePastime, CreatePlace
-
+from .forms import CreateBlog, CreateMusic, CreatePastime, CreatePlace, FaceForm
+from django.http import HttpResponse
 # Create your views here.
 def home(request):
     return render(request, "home.html")
@@ -11,8 +11,23 @@ def music(request):
     return render(request, "music.html")
 
 def photo(request):
-    photos = Photo.objects
+    photos = Photo.objects.all
     return render(request, "photo.html", {'photos':photos})
+
+def face_image_view(request):
+      
+    if request.method == 'POST':
+        form = FaceForm(request.POST, request.FILES)
+  
+        if form.is_valid():
+            form.save()
+            return redirect('success')
+    else:
+        form = FaceForm()
+    return render(request, 'upload_image.html', {'form' : form})
+
+def success(request):
+    return HttpResponse('successfully uploaded')
 
 def detail(request, photo_id):
     details = get_object_or_404(Photo, pk=photo_id)
@@ -24,7 +39,7 @@ def aboutme(request):
 def Photoregister(request):
     photo = Photo()
     photo.title = request.GET['title']
-    photo.body = request.GET['body']
+    photo.content = request.GET['content']
     photo.pub_date = timezone.datetime.now()
     photo.save()
     return redirect('/photo/'+str(photo.id))
